@@ -46,6 +46,7 @@ target_data = mix_data[['Дата', 'Качество кокса,% (Показа
 target_data.rename(columns={'Дата':'ДатаПробыКокса', 'Качество кокса,% (Показатели прочности,% — CSR)': 'CSR',
                             'Качество кокса,% (Показатели прочности,% — M10)':'M10',
                             'Качество кокса,% (Показатели прочности,% — M25)':'M25'}, inplace=True)
+target_data["ДатаШихтовки"] = target_data["ДатаПробыКокса"] - pd.Timedelta(4)
 target_data.to_excel("target_b1.xlsx")
 
 #create features
@@ -96,5 +97,5 @@ features_data["Оборот печей отсеч, ч"] = features_data["Обо�
 features_data.to_excel("features_b1.xlsx")
 # keys_order.append("manuf_with_no_properties_col")
 #merge targets and features
-aligned_data = pd.merge(features_data, target_data, left_on=["ДатаШихтовки"], right_on=["ДатаПробыКокса"])
+aligned_data = pd.merge(features_data, target_data, on=["ДатаШихтовки"])
 aligned_data.to_excel("aligned_b1.xlsx")
